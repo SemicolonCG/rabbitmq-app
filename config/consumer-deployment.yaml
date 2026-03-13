@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: consumer
-          image: dasun2020/rabbitproject-consumer:v2
+          image: dasun2020/rabbitproject-consumer:v4
           env:
             - name: RABBITMQ_HOST
               value: rabbitmq
