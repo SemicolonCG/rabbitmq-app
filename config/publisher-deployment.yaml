@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: publisher
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: publisher
+  template:
+    metadata:
+      labels:
+        app: publisher
+    spec:
+      containers:
+        - name: publisher
+          image: rabbitproject-publisher:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: RABBITMQ_HOST
+              value: rabbitmq
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: publisher
+spec:
+  selector:
+    app: publisher
+  type: NodePort
+  ports:
+    - name: http
+      port: 5217      # internal port inside cluster
+      targetPort: 80  # container port
+      nodePort: 31234 # node port on cluster node
